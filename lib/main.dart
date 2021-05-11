@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:virtual_feeling/app/pages/talk.dart';
+import 'package:virtual_feeling/app/helpers/app_colors.dart';
+import 'package:virtual_feeling/app/pages/home_page.dart';
 
 
-void main() => runApp(VirtualFeeling());
+void main() => runApp(MyApp());
 
-class VirtualFeeling extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Talk(),
+      title: 'Flutter Chat UI',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: AppColors.tema,
+        accentColor: AppColors.lightGrey,
       ),
+      home: HomePage(),
     );
   }
 }
-
-

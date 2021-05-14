@@ -3,7 +3,6 @@ import 'package:virtual_feeling/app/helpers/app_colors.dart';
 import 'package:virtual_feeling/app/models/message_model.dart';
 import 'package:virtual_feeling/app/pages/chat.dart';
 
-
 class RecentChats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

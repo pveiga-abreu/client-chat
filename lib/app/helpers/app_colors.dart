@@ -15,4 +15,7 @@ class AppColors {
   static final Color darkGreen = Color(0xFF035839);
   
 
+  static final Color purple_theme = Color(0xFF573d90);
+  static final Color yellow_theme = Color(0xFFf3eb60);
+
 }

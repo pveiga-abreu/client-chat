@@ -21,7 +21,7 @@ class Message {
 final User currentUser = User(
   id: 0,
   name: 'Current User',
-  imageUrl: 'assets/images/greg.jpg',
+  imageUrl: 'https://avatars.githubusercontent.com/u/49495564?v=4',
 );
 
 // USERS
@@ -147,4 +147,5 @@ List<Message> messages = [
     isLiked: true,
     unread: true,
   ),
+
 ];

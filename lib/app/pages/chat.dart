@@ -5,14 +5,29 @@ import 'package:virtual_feeling/app/models/user_model.dart';
 
 class Chat extends StatefulWidget {
   final User user;
+  final User me;
 
-  Chat({this.user});
+  Chat({this.user, this.me});
 
   @override
   _ChatState createState() => _ChatState();
 }
 
 class _ChatState extends State<Chat> {
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   _buildMessage(Message message, bool isMe) {
     if (widget.user.id == message.sender.id || isMe) {
       final Container msg = Container(
@@ -102,6 +117,7 @@ class _ChatState extends State<Chat> {
           Expanded(
             child: TextField(
               textCapitalization: TextCapitalization.sentences,
+              controller: _controller,
               onChanged: (value) {},
               decoration: InputDecoration.collapsed(
                 hintText: 'Digite sua mensagem...',
@@ -112,7 +128,16 @@ class _ChatState extends State<Chat> {
             icon: Icon(Icons.send),
             iconSize: 25.0,
             color: Theme.of(context).primaryColor,
-            onPressed: () {},
+            onPressed: () {
+                Message(
+                  sender: widget.me,
+                  recipient: widget.user,
+                  time: '4:30 PM',
+                  text: _controller.text, 
+                  isLiked: false,
+                  unread: true
+                );
+            },
           ),
         ],
       ),
@@ -166,10 +191,6 @@ class _ChatState extends State<Chat> {
                     itemBuilder: (BuildContext context, int index) {
                       final Message message = messages[index];
                       final bool isMe = message.sender.id == currentUser.id;
-                      print(messages.length);
-                      print(index);
-                      print(widget.user.name);
-                      print(message.text);
 
                       return _buildMessage(message, isMe);
                     },

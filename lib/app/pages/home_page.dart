@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
               ),
               child: Column(
                 children: <Widget>[
-                  FavoriteContacts(),
+                  // FavoriteContacts(),
                   RecentChats(),
                 ],
               ),

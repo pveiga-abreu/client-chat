@@ -55,10 +55,11 @@ class Openfire {
       messageHandler.sendMessage(receiverJid, str);
     });
 
-    if (xmpp.XmppConnectionState == xmpp.XmppConnectionState.Ready) {
+    // Verifica se a conexão foi realizada com sucesso
+    if (xmpp.XmppConnectionState != '') {
       conectado = true;
     }
-    return conectado;
+    return conectado = false;
   }
 }
 
@@ -78,9 +79,11 @@ class ExampleConnectionStateChangedListener
 
   @override
   void onConnectionStateChanged(xmpp.XmppConnectionState state) {
+    print('$state testando conexao');
     if (state == xmpp.XmppConnectionState.Ready) {
       print(TAG);
       print("teste");
+
       var vCardManager = xmpp.VCardManager(_connection);
       vCardManager.getSelfVCard().then((vCard) {
         if (vCard != null) {

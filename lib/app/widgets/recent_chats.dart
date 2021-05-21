@@ -30,6 +30,7 @@ class RecentChats extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (_) => Chat(
                       user: chat.sender,
+                      me: chat.recipient,
                     ),
                   ),
                 ),

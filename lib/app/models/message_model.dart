@@ -2,6 +2,7 @@ import 'package:virtual_feeling/app/models/user_model.dart';
 
 class Message {
   final User sender;
+  final User recipient;
   final String
       time; // Would usually be type DateTime or Firebase Timestamp in production apps
   final String text;
@@ -10,6 +11,7 @@ class Message {
 
   Message({
     this.sender,
+    this.recipient,
     this.time,
     this.text,
     this.isLiked,
@@ -68,6 +70,7 @@ List<User> favorites = [ghabriel, paulo, rusley, pedro];
 List<Message> chats = [
   Message(
     sender: ghabriel,
+    recipient: currentUser,
     time: '5:30 PM',
     text: 'Cadê os bebê cachorro ?',
     isLiked: false,
@@ -75,6 +78,7 @@ List<Message> chats = [
   ),
   Message(
     sender: rusley,
+    recipient: currentUser,
     time: '4:30 PM',
     text: 'Fez a eso da penha ?',
     isLiked: false,
@@ -82,6 +86,7 @@ List<Message> chats = [
   ),
   Message(
     sender: pedro,
+    recipient: currentUser,
     time: '3:30 PM',
     text: 'man, ta no git',
     isLiked: false,
@@ -89,6 +94,7 @@ List<Message> chats = [
   ),
   Message(
     sender: guilherme,
+    recipient: currentUser,
     time: '1:30 PM',
     text: 'ele usa só table kkk, bixo é ruim',
     isLiked: false,
@@ -96,6 +102,7 @@ List<Message> chats = [
   ),
   Message(
     sender: paulo,
+    recipient: currentUser,
     time: '10:30 AM',
     text: 'to fazendo um complo pra tia fazer café sem açucar',
     isLiked: false,
@@ -103,6 +110,7 @@ List<Message> chats = [
   ),
   Message(
     sender: diego,
+    recipient: currentUser,
     time: '10:56 AM',
     text: 'Fala dev, siga a rocket no discord.',
     isLiked: false,
@@ -110,6 +118,7 @@ List<Message> chats = [
   ),
   Message(
     sender: filipe,
+    recipient: currentUser,
     time: '12:34 AM',
     text: 'Saiu vídeo novo no canal, corre lá...',
     isLiked: false,
@@ -121,6 +130,7 @@ List<Message> chats = [
 List<Message> messages = [
   Message(
     sender: paulo,
+    recipient: currentUser,
     time: '3:15 PM',
     text: 'deixa eu ver na planilha aqui..',
     isLiked: false,
@@ -128,6 +138,7 @@ List<Message> messages = [
   ),
   Message(
     sender: currentUser,
+    recipient: paulo,
     time: '2:45 PM',
     text: 'ein, quem joga hoje no pong ?',
     isLiked: false,
@@ -135,6 +146,7 @@ List<Message> messages = [
   ),
   Message(
     sender: currentUser,
+    recipient: paulo,
     time: '1:30 PM',
     text: 'kkkk deixa com o pai',
     isLiked: false,
@@ -142,10 +154,10 @@ List<Message> messages = [
   ),
   Message(
     sender: paulo,
+    recipient: currentUser,
     time: '10:30 PM',
     text: 'to fazendo um complo pra tia fazer café sem açucar',
     isLiked: true,
     unread: true,
   ),
-
 ];

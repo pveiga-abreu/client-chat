@@ -3,7 +3,7 @@ import 'package:virtual_feeling/app/helpers/app_colors.dart';
 import 'package:virtual_feeling/app/models/message_model.dart';
 import 'package:virtual_feeling/app/pages/chat.dart';
 
-class RecentChats extends StatelessWidget {
+class Contacts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -21,9 +21,9 @@ class RecentChats extends StatelessWidget {
             topRight: Radius.circular(30.0),
           ),
           child: ListView.builder(
-            itemCount: messages.length,
+            itemCount: chats.length,
             itemBuilder: (BuildContext context, int index) {
-              final Message chat = messages[index];
+              final Message chat = chats[index];
               return GestureDetector(
                 onTap: () => Navigator.push(
                   context,
@@ -94,25 +94,6 @@ class RecentChats extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 5.0),
-                          chat.unread
-                              ? Container(
-                                  width: 40.0,
-                                  height: 20.0,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'novo',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                )
-                              : Text(''),
                         ],
                       ),
                     ],

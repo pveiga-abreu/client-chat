@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CategorySelector extends StatefulWidget {
-  String category;
-
-  CategorySelector({this.category});
 
   @override
   _CategorySelectorState createState() => _CategorySelectorState();
@@ -12,7 +9,7 @@ class CategorySelector extends StatefulWidget {
 class _CategorySelectorState extends State<CategorySelector> {
   int selectedIndex = 0;
 
-  final List<String> categories = ['Contatos', 'Conversas'];
+  final List<String> categories = [ 'Conversas'];
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +24,6 @@ class _CategorySelectorState extends State<CategorySelector> {
             onTap: () {
               setState(() {
                 selectedIndex = index;
-                widget.category = categories[index];
               });
             },
             child: Padding(

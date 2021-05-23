@@ -7,7 +7,7 @@ class Message {
       time; // Would usually be type DateTime or Firebase Timestamp in production apps
   final String text;
   final bool isLiked;
-  final bool unread;
+  bool unread;
 
   Message({
     this.sender,
@@ -17,6 +17,10 @@ class Message {
     this.isLiked,
     this.unread,
   });
+
+  void readMessage(Message message) {
+    message.unread = false;
+  }
 }
 
 // YOU - current user
@@ -64,66 +68,14 @@ final User filipe = User(
 );
 
 // FAVORITE CONTACTS
-List<User> favorites = [ghabriel, paulo, rusley, pedro];
-
-// EXAMPLE CHATS ON HOME SCREEN
-List<Message> chats = [
-  Message(
-    sender: ghabriel,
-    recipient: currentUser,
-    time: '',
-    text: '',
-    isLiked: false,
-    unread: true,
-  ),
-  Message(
-    sender: rusley,
-    recipient: currentUser,
-    time: '',
-    text: '',
-    isLiked: false,
-    unread: true,
-  ),
-  Message(
-    sender: pedro,
-    recipient: currentUser,
-    time: '',
-    text: '',
-    isLiked: false,
-    unread: false,
-  ),
-  Message(
-    sender: guilherme,
-    recipient: currentUser,
-    time: '',
-    text: '',
-    isLiked: false,
-    unread: false,
-  ),
-  Message(
-    sender: paulo,
-    recipient: currentUser,
-    time: '',
-    text: '',
-    isLiked: false,
-    unread: false,
-  ),
-  Message(
-    sender: diego,
-    recipient: currentUser,
-    time: '',
-    text: '',
-    isLiked: false,
-    unread: false,
-  ),
-  Message(
-    sender: filipe,
-    recipient: currentUser,
-    time: '',
-    text: '',
-    isLiked: false,
-    unread: false,
-  )
+List<User> contacts = [
+  ghabriel,
+  paulo,
+  rusley,
+  pedro,
+  guilherme,
+  diego,
+  filipe
 ];
 
 // EXAMPLE MESSAGES IN CHAT SCREEN

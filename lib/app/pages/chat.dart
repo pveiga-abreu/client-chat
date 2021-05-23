@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:virtual_feeling/app/helpers/app_colors.dart';
 import 'package:virtual_feeling/app/models/message_model.dart';
 import 'package:virtual_feeling/app/models/user_model.dart';
@@ -28,8 +29,23 @@ class _ChatState extends State<Chat> {
     super.dispose();
   }
 
+  void sendMessage(TextEditingController message) {
+    final Message newmessage = Message(
+        sender: widget.me,
+        recipient: widget.user,
+        time: '${DateFormat.jm().format(DateTime.now())}',
+        text: message.text,
+        isLiked: false,
+        unread: true);
+
+    setState(() {
+      messages.insert(0, newmessage);
+    });
+  }
+
   _buildMessage(Message message, bool isMe) {
-    if (widget.user.id == message.sender.id || isMe) {
+    if (widget.user.id == message.sender.id ||
+        widget.user.id == message.recipient.id) {
       final Container msg = Container(
         margin: isMe
             ? EdgeInsets.only(
@@ -84,16 +100,16 @@ class _ChatState extends State<Chat> {
       return Row(
         children: <Widget>[
           msg,
-          IconButton(
-            icon: message.isLiked
-                ? Icon(Icons.favorite)
-                : Icon(Icons.favorite_border),
-            iconSize: 30.0,
-            color: message.isLiked
-                ? Theme.of(context).primaryColor
-                : Colors.blueGrey,
-            onPressed: () {},
-          )
+          // IconButton(
+          //   icon: message.isLiked
+          //       ? Icon(Icons.favorite)
+          //       : Icon(Icons.favorite_border),
+          //   iconSize: 30.0,
+          //   color: message.isLiked
+          //       ? Theme.of(context).primaryColor
+          //       : Colors.blueGrey,
+          //   onPressed: () {},
+          // )
         ],
       );
     } else {
@@ -129,14 +145,7 @@ class _ChatState extends State<Chat> {
             iconSize: 25.0,
             color: Theme.of(context).primaryColor,
             onPressed: () {
-                Message(
-                  sender: widget.me,
-                  recipient: widget.user,
-                  time: '4:30 PM',
-                  text: _controller.text, 
-                  isLiked: false,
-                  unread: true
-                );
+              sendMessage(_controller);
             },
           ),
         ],

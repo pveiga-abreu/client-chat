@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:virtual_feeling/app/helpers/app_colors.dart';
 import 'package:virtual_feeling/app/widgets/category_selector.dart';
 import 'package:virtual_feeling/app/widgets/favorite_contacts.dart';
+import 'package:virtual_feeling/app/widgets/contacts.dart';
 import 'package:virtual_feeling/app/widgets/recent_chats.dart';
-
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,6 +11,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  CategorySelector categoria = CategorySelector(category: 'Contatos');
+
+  _buildBody() {
+    print(categoria.category);
+    if (categoria.category == 'Contatos') {
+      return Contacts();
+    } else {
+      RecentChats();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,10 +36,9 @@ class _HomePageState extends State<HomePage> {
         title: Text(
           'Sentimento Virtual',
           style: TextStyle(
-            fontSize: 28.0,
-            fontWeight: FontWeight.bold,
-            color: AppColors.darkGreen
-          ),
+              fontSize: 28.0,
+              fontWeight: FontWeight.bold,
+              color: AppColors.darkGreen),
         ),
         elevation: 0.0,
         actions: <Widget>[
@@ -42,7 +52,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: <Widget>[
-          CategorySelector(),
+          categoria,
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -55,7 +65,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: <Widget>[
                   // FavoriteContacts(),
-                  RecentChats(),
+                  _buildBody()
                 ],
               ),
             ),

@@ -5,86 +5,57 @@ import 'package:xmpp_stone/xmpp_stone.dart' as xmpp;
 import 'dart:io';
 import 'package:console/console.dart';
 import 'package:image/image.dart' as image;
-import 'dart:developer';
 
 final String TAG = 'example';
 
-class Openfire {
-// List <String>arguments
+void main(List<String> arguments) {
+  bool conectado = false;
+  var userAtDomain = 'jpchamon@laptop-9ujgpavm';
+  var password = 'chamon123';
+  var jid = xmpp.Jid.fromFullJid(userAtDomain);
 
-  static bool openFireLogin(String user, String pass) {
-    print(user);
-    print(pass);
-    String userAtDomain = user + '@openfiresentvirtual.ddns.net';
-    String password = pass;
-    print(userAtDomain);
+  print(jid.local);
+  
+  var account = xmpp.XmppAccountSettings(
+      userAtDomain, jid.local, jid.domain, password, 5222,
+      resource: 'xmppstone');
+  var connection = xmpp.Connection(account);
+  connection.connect();
+  //xmpp.MessagesListener messagesListener = ExampleMessagesListener();
+  //ExampleConnectionStateChangedListener(connection, messagesListener);
+  var presenceManager = xmpp.PresenceManager.getInstance(connection);
+  presenceManager.subscriptionStream.listen((streamEvent) {
+    if (streamEvent.type == xmpp.SubscriptionEventType.REQUEST) {
+      Log.d(TAG, 'Accepting presence request');
+      presenceManager.acceptSubscription(streamEvent.jid);
+    }
+  });
+  
 
-    var jid = xmpp.Jid.fromFullJid(userAtDomain);
 
-    var account = xmpp.XmppAccountSettings(
-        userAtDomain, jid.local, jid.domain, password, 5222,
-        resource: 'xmppstone');
-    var connection = xmpp.Connection(account);
 
-    connection.connect();
 
-    xmpp.MessagesListener messagesListener = ExampleMessagesListener();
-    ExampleConnectionStateChangedListener(connection, messagesListener);
-    var presenceManager = xmpp.PresenceManager.getInstance(connection);
-    presenceManager.subscriptionStream.listen((streamEvent) {
-      if (streamEvent.type == xmpp.SubscriptionEventType.REQUEST) {
-        ;
-        Log.d(TAG, 'Accepting presence request');
-        presenceManager.acceptSubscription(streamEvent.jid);
-      }
-    });
+  
 
-    // Nome Usuário + "Dominio" do servidor, valor fixo = @laptop-9ujgpavm
+  void enviarMensagem(){
     var receiver = 'ghabriel.fiorotti@laptop-9ujgpavm';
     var receiverJid = xmpp.Jid.fromFullJid(receiver);
     var messageHandler = xmpp.MessageHandler.getInstance(connection);
-    getConsoleStream().asBroadcastStream().listen((String str) {
-      messageHandler.sendMessage(receiverJid, str);
-    });
-
-    bool conectado = false;
-
-    if (user == 'marcus.castilho') {
-      conectado = true;
-    }
-
-    if (user == 'kayc.kennedy') {
-      conectado = true;
-    }
-
-    if (user == 'paulo.victor') {
-      conectado = true;
-    }
-
-    if (user == 'ghabriel.fiorotti') {
-      conectado = true;
-    }
-
-    // Verifica se a conexão foi realizada com sucesso
-    if (conectado) {
-      return true;
-    }
-    return false;
+    messageHandler.sendMessage(receiverJid, "fdsfjkdlsfsd");
   }
 
-  // void enviarMensagem(){
-  //   var receiver = 'ghabriel.fiorotti@laptop-9ujgpavm';
-  //   var receiverJid = xmpp.Jid.fromFullJid(receiver);
-  //   var messageHandler = xmpp.MessageHandler.getInstance(connection);
-  //   messageHandler.sendMessage(receiverJid, "fdsfjkdlsfsd");
-  // }
 
-  // getConsoleStream().asBroadcastStream().listen((String str) {
-  //   enviarMensagem();
-  // });
+  
+  getConsoleStream().asBroadcastStream().listen((String str) {
+    enviarMensagem();
+    print(connection.authenticated);
+  });
+
 }
 
-class ExampleConnectionStateChangedListener
+
+
+/* class ExampleConnectionStateChangedListener
     implements xmpp.ConnectionStateChangedListener {
   xmpp.Connection _connection;
   xmpp.MessagesListener _messagesListener;
@@ -98,11 +69,10 @@ class ExampleConnectionStateChangedListener
     _connection.connectionStateStream.listen(onConnectionStateChanged);
   }
 
-  @override
-  void onConnectionStateChanged(xmpp.XmppConnectionState state) {
+ */  /* @override
+  bool onConnectionStateChanged(xmpp.XmppConnectionState state) {
     if (state == xmpp.XmppConnectionState.Ready) {
-      print(TAG);
-
+      Log.d(TAG, 'Connected');
       var vCardManager = xmpp.VCardManager(_connection);
       vCardManager.getSelfVCard().then((vCard) {
         if (vCard != null) {
@@ -135,8 +105,8 @@ class ExampleConnectionStateChangedListener
       presenceManager.presenceStream.listen(onPresence);
     }
   }
-
-  void onPresence(xmpp.PresenceData event) {
+ */
+/*   void onPresence(xmpp.PresenceData event) {
     Log.d(
         TAG,
         'presence Event from ' +
@@ -144,7 +114,7 @@ class ExampleConnectionStateChangedListener
             ' PRESENCE: ' +
             event.showElement.toString());
   }
-}
+} */
 
 Stream<String> getConsoleStream() {
   return Console.adapter.byteStream().map((bytes) {
@@ -152,13 +122,13 @@ Stream<String> getConsoleStream() {
     str = str.substring(0, str.length - 1);
     return str;
   });
-}
+} 
 
 class ExampleMessagesListener implements xmpp.MessagesListener {
   @override
   void onNewMessage(xmpp.MessageStanza message) {
     if (message.body != null) {
-      print('${message.fromJid.userAtDomain}: ${message.body}');
+      print('${message.toJid.userAtDomain}: ${message.body}');
     }
   }
 }

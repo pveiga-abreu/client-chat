@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:virtual_feeling/app/helpers/app_colors.dart';
 import 'package:virtual_feeling/app/widgets/category_selector.dart';
 import 'package:virtual_feeling/app/widgets/contacts.dart';
+import 'package:virtual_feeling/app/widgets/mydrawer.dart';
 import 'package:virtual_feeling/app/widgets/recent_chats.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,20 +11,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawer(),
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 30.0,
-          color: AppColors.darkGreen,
-          onPressed: () {},
-        ),
         title: Text(
           'Sentimento Virtual',
           style: TextStyle(
@@ -54,10 +47,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               child: Column(
-                children: <Widget>[
-                  Contacts(),
-                  RecentChats()
-                ],
+                children: <Widget>[Contacts(), RecentChats()],
               ),
             ),
           ),

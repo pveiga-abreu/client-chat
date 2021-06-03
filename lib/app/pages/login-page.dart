@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../server/openfire.dart' as openfire;
-import 'package:flutter/material.dart';
 import 'package:virtual_feeling/app/pages/home_page.dart';
 
 
@@ -10,7 +8,7 @@ class LoginPage extends StatelessWidget {
   TextEditingController senha = new TextEditingController();
 
   static void autenticar(String mail, String senha, context) {
-    final conectdado = openfire.Openfire.openFireLogin(mail, senha);
+    final conectdado = true;
 
     print(conectdado);
     if(conectdado){

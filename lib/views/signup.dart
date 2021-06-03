@@ -3,7 +3,7 @@ import 'package:clientchat/helper/theme.dart';
 import 'package:clientchat/services/auth.dart';
 import 'package:clientchat/services/database.dart';
 import 'package:clientchat/views/chatrooms.dart';
-import 'package:clientchat/widget/widget.dart';
+import 'package:clientchat/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:clientchat/helper/constants.dart';
 import 'package:clientchat/services/database.dart';
-import 'package:clientchat/widget/widget.dart';
+import 'package:clientchat/widgets/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

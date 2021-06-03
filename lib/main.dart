@@ -1,6 +1,6 @@
-import 'package:chatapp/helper/authenticate.dart';
-import 'package:chatapp/helper/helperfunctions.dart';
-import 'package:chatapp/views/chatrooms.dart';
+import 'package:clientchat/helper/authenticate.dart';
+import 'package:clientchat/helper/helperfunctions.dart';
+import 'package:clientchat/views/chatrooms.dart';
 import 'package:flutter/material.dart';
 
 void main() {

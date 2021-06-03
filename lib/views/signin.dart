@@ -1,10 +1,10 @@
-import 'package:chatapp/helper/helperfunctions.dart';
-import 'package:chatapp/helper/theme.dart';
-import 'package:chatapp/services/auth.dart';
-import 'package:chatapp/services/database.dart';
-import 'package:chatapp/views/chatrooms.dart';
-import 'package:chatapp/views/forgot_password.dart';
-import 'package:chatapp/widget/widget.dart';
+import 'package:clientchat/helper/helperfunctions.dart';
+import 'package:clientchat/helper/theme.dart';
+import 'package:clientchat/services/auth.dart';
+import 'package:clientchat/services/database.dart';
+import 'package:clientchat/views/chatrooms.dart';
+import 'package:clientchat/views/forgot_password.dart';
+import 'package:clientchat/widget/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

@@ -1,11 +1,11 @@
-import 'package:chatapp/helper/authenticate.dart';
-import 'package:chatapp/helper/constants.dart';
-import 'package:chatapp/helper/helperfunctions.dart';
-import 'package:chatapp/helper/theme.dart';
-import 'package:chatapp/services/auth.dart';
-import 'package:chatapp/services/database.dart';
-import 'package:chatapp/views/chat.dart';
-import 'package:chatapp/views/search.dart';
+import 'package:clientchat/helper/authenticate.dart';
+import 'package:clientchat/helper/constants.dart';
+import 'package:clientchat/helper/helperfunctions.dart';
+import 'package:clientchat/helper/theme.dart';
+import 'package:clientchat/services/auth.dart';
+import 'package:clientchat/services/database.dart';
+import 'package:clientchat/views/chat.dart';
+import 'package:clientchat/views/search.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoom extends StatefulWidget {

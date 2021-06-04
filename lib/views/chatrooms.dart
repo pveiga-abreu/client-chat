@@ -190,6 +190,8 @@ class _ChatRoomState extends State<ChatRoom> {
                         .replaceAll(Constants.myName, ""),
                     chatRoomId:
                         snapshot.data.documents[index].data["chatRoomId"],
+                    connection: connection,
+                    deviceState: _deviceState,
                   );
                 })
             : Container();
@@ -383,8 +385,10 @@ class _ChatRoomState extends State<ChatRoom> {
 class ChatRoomsTile extends StatelessWidget {
   final String userName;
   final String chatRoomId;
+  final BluetoothConnection connection;
+  final int deviceState;
 
-  ChatRoomsTile({this.userName, @required this.chatRoomId});
+  ChatRoomsTile({this.userName, @required this.chatRoomId, this.connection, this.deviceState});
 
   @override
   Widget build(BuildContext context) {
@@ -395,6 +399,8 @@ class ChatRoomsTile extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => Chat(
                       chatRoomId: chatRoomId,
+                      connection: connection,
+                      deviceState: deviceState,
                     )));
       },
       child: Container(

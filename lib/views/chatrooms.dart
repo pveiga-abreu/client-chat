@@ -6,6 +6,7 @@ import 'package:clientchat/services/auth.dart';
 import 'package:clientchat/services/database.dart';
 import 'package:clientchat/views/chat.dart';
 import 'package:clientchat/views/search.dart';
+import 'package:clientchat/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -60,24 +61,25 @@ class _ChatRoomState extends State<ChatRoom> {
         FlatButton.icon(
           icon: Icon(
             Icons.refresh,
-            color: Colors.white,
+            color: CustomTheme.textColor,
           ),
           label: Text(
-            "Refresh",
+            "",
             style: TextStyle(
-              color: Colors.white,
+              color: CustomTheme.textColor,
             ),
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
-          splashColor: Colors.blue,
+          splashColor: CustomTheme.colorAccent,
           onPressed: () async {
             // So, that when new devices are paired
             // while the app is running, user can refresh
             // the paired devices list.
             await getPairedDevices().then((_) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Device list refreshed')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Device list refreshed')));
             });
           },
         ),
@@ -94,8 +96,8 @@ class _ChatRoomState extends State<ChatRoom> {
         visible:
             _isButtonUnavailable && _bluetoothState == BluetoothState.STATE_ON,
         child: LinearProgressIndicator(
-          backgroundColor: Colors.white,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey),
+          backgroundColor: CustomTheme.textColorGreen,
+          valueColor: AlwaysStoppedAnimation<Color>(CustomTheme.colorAccent),
         ),
       ),
       Padding(
@@ -105,9 +107,10 @@ class _ChatRoomState extends State<ChatRoom> {
           children: <Widget>[
             Expanded(
               child: Text(
-                'Enable Bluetooth',
+                'Habilitar Bluetooth',
                 style: TextStyle(
-                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  color: CustomTheme.textColorGreen,
                   fontSize: 16,
                 ),
               ),
@@ -144,29 +147,33 @@ class _ChatRoomState extends State<ChatRoom> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              'Device:',
+              'Dispositivo:',
               style: TextStyle(
-                color: Colors.white,
+                color: CustomTheme.textColorGreen,
                 fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
             Container(
               width: 100,
               child: DropdownButton(
                 isExpanded: true,
-                style: const TextStyle(color: Colors.blue),
+                style: const TextStyle(color: Colors.black),
                 items: GetDeviceItems.getDeviceItems(_devicesList),
                 onChanged: (value) => setState(() => _device = value),
                 value: _devicesList.isNotEmpty ? _device : null,
               ),
             ),
             ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      CustomTheme.textColorGreen)),
               onPressed: _isButtonUnavailable
                   ? null
                   : _connected
                       ? _disconnect
                       : _connect,
-              child: Text(_connected ? 'Disconnect' : 'Connect'),
+              child: Text(_connected ? 'Desconectar' : 'Conectar'),
             ),
           ],
         ),
@@ -282,10 +289,11 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: DrawerWidget(),
       appBar: AppBar(
-        title: Image.asset(
-          "assets/images/logo.png",
-          height: 40,
+        title: Text(
+          'Sentimento Virtual',
+          style: TextStyle(color: CustomTheme.textColor, fontSize: 18),
         ),
         elevation: 0.0,
         centerTitle: false,
@@ -324,7 +332,8 @@ class _ChatRoomState extends State<ChatRoom> {
       _isButtonUnavailable = true;
     });
     if (_device == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('No device selected')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Dispositivo não selecionado')));
     } else {
       if (!isConnected) {
         await BluetoothConnection.toAddress(_device.address)
@@ -349,7 +358,8 @@ class _ChatRoomState extends State<ChatRoom> {
           print('Cannot connect, exception occurred');
           print(error);
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Device connected')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Dispositivo conectado')));
 
         setState(() => _isButtonUnavailable = false);
       }
@@ -363,7 +373,8 @@ class _ChatRoomState extends State<ChatRoom> {
     });
 
     await connection.close();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Device disconnected')));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Dispositivo desconectado')));
     if (!connection.isConnected) {
       setState(() {
         _connected = false;
@@ -388,7 +399,11 @@ class ChatRoomsTile extends StatelessWidget {
   final BluetoothConnection connection;
   final int deviceState;
 
-  ChatRoomsTile({this.userName, @required this.chatRoomId, this.connection, this.deviceState});
+  ChatRoomsTile(
+      {this.userName,
+      @required this.chatRoomId,
+      this.connection,
+      this.deviceState});
 
   @override
   Widget build(BuildContext context) {
@@ -398,13 +413,14 @@ class ChatRoomsTile extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => Chat(
+                      userName: userName,
                       chatRoomId: chatRoomId,
                       connection: connection,
                       deviceState: deviceState,
                     )));
       },
       child: Container(
-        color: Colors.black26,
+        color: CustomTheme.backgroundColor,
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Row(
           children: [
@@ -414,10 +430,10 @@ class ChatRoomsTile extends StatelessWidget {
               decoration: BoxDecoration(
                   color: CustomTheme.colorAccent,
                   borderRadius: BorderRadius.circular(30)),
-              child: Text(userName.substring(0, 1),
+              child: Text(userName ?? userName.substring(0, 1),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Colors.white,
+                      color: CustomTheme.textColorGreen,
                       fontSize: 16,
                       fontFamily: 'OverpassRegular',
                       fontWeight: FontWeight.w300)),
@@ -428,7 +444,7 @@ class ChatRoomsTile extends StatelessWidget {
             Text(userName,
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: CustomTheme.textColor,
                     fontSize: 16,
                     fontFamily: 'OverpassRegular',
                     fontWeight: FontWeight.w300))

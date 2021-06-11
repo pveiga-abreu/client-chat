@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:clientchat/helper/constants.dart';
+import 'package:clientchat/helper/theme.dart';
 import 'package:clientchat/services/database.dart';
 import 'package:clientchat/widgets/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,11 +10,12 @@ import 'dart:convert';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 class Chat extends StatefulWidget {
+  final String userName;
   final String chatRoomId;
   final BluetoothConnection connection;
   final int deviceState;
 
-  Chat({this.chatRoomId, this.connection, this.deviceState});
+  Chat({this.userName, this.chatRoomId, this.connection, this.deviceState});
 
   @override
   _ChatState createState() => _ChatState(this.connection, this.deviceState);
@@ -34,12 +36,17 @@ class _ChatState extends State<Chat> {
       builder: (context, snapshot) {
         return snapshot.hasData
             ? ListView.builder(
+                reverse: true,
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
+                  var newIndex = (snapshot.data.documents.length - index) -1;
+                  print('${newIndex}');
+                  print('$index');
+
                   return MessageTile(
-                    message: snapshot.data.documents[index].data["message"],
+                    message: snapshot.data.documents[newIndex].data["message"],
                     sendByMe: Constants.myName ==
-                        snapshot.data.documents[index].data["sendBy"],
+                        snapshot.data.documents[newIndex].data["sendBy"],
                   );
                 })
             : Container();
@@ -85,56 +92,57 @@ class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
+      appBar: AppBar(
+        title: Text(widget.userName),
+        elevation: 0.0,
+        centerTitle: false,
+      ),
       body: Container(
         child: Stack(
           children: [
-            chatMessages(),
+            Container(
+              child: chatMessages(),
+              padding: EdgeInsets.only(bottom: 100),
+            ),
             Container(
               alignment: Alignment.bottomCenter,
               width: MediaQuery.of(context).size.width,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                color: Color(0x54FFFFFF),
+                color: CustomTheme.backgroundColor,
                 child: Row(
                   children: [
+                    IconButton(
+                      icon: Icon(Icons.message),
+                      iconSize: 25.0,
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {},
+                    ),
                     Expanded(
-                        child: TextField(
-                      controller: messageEditingController,
-                      style: simpleTextStyle(),
-                      decoration: InputDecoration(
-                          hintText: "Message ...",
-                          hintStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                          border: InputBorder.none),
-                    )),
+                      child: TextField(
+                        textCapitalization: TextCapitalization.sentences,
+                        controller: messageEditingController,
+                        onChanged: (value) {},
+                        decoration: InputDecoration.collapsed(
+                          hintText: 'Digite sua mensagem...',
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       width: 16,
                     ),
                     GestureDetector(
                       onTap: () {
-                        addMessage();
+                        FocusScope.of(context).unfocus();
                       },
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    const Color(0x36FFFFFF),
-                                    const Color(0x0FFFFFFF)
-                                  ],
-                                  begin: FractionalOffset.topLeft,
-                                  end: FractionalOffset.bottomRight),
-                              borderRadius: BorderRadius.circular(40)),
-                          padding: EdgeInsets.all(12),
-                          child: Image.asset(
-                            "assets/images/send.png",
-                            height: 25,
-                            width: 25,
-                          )),
+                      child: IconButton(
+                        icon: Icon(Icons.send),
+                        iconSize: 25.0,
+                        color: Theme.of(context).primaryColor,
+                        onPressed: () {
+                          addMessage();
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -175,13 +183,13 @@ class MessageTile extends StatelessWidget {
                     bottomRight: Radius.circular(23)),
             gradient: LinearGradient(
               colors: sendByMe
-                  ? [const Color(0xff007EF4), const Color(0xff2A75BC)]
-                  : [const Color(0x1AFFFFFF), const Color(0x1AFFFFFF)],
+                  ? [const Color(0xFF56E8B3), const Color(0xFF56E8B3)]
+                  : [const Color(0xFF56E8B3), const Color(0xFF56E8B3)],
             )),
         child: Text(message,
             textAlign: TextAlign.start,
             style: TextStyle(
-                color: Colors.white,
+                color: CustomTheme.textColor,
                 fontSize: 16,
                 fontFamily: 'OverpassRegular',
                 fontWeight: FontWeight.w300)),

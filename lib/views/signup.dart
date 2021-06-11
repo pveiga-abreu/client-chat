@@ -59,7 +59,12 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
+      appBar: AppBar(
+        title: Text(
+          'Criar Conta',
+          style: TextStyle(color: CustomTheme.textColor, fontSize: 18),
+        ),
+      ),
       body: isLoading ? Container(child: Center(child: CircularProgressIndicator(),),) :  Container(
         padding: EdgeInsets.symmetric(horizontal: 24),
         child: Column(
@@ -75,7 +80,7 @@ class _SignUpState extends State<SignUp> {
                     validator: (val){
                       return val.isEmpty || val.length < 3 ? "Enter Username 3+ characters" : null;
                     },
-                    decoration: textFieldInputDecoration("username"),
+                    decoration: textFieldInputDecoration("apelido"),
                   ),
                   TextFormField(
                     controller: emailEditingController,
@@ -89,7 +94,7 @@ class _SignUpState extends State<SignUp> {
                   TextFormField(
                     obscureText: true,
                     style: simpleTextStyle(),
-                    decoration: textFieldInputDecoration("password"),
+                    decoration: textFieldInputDecoration("senha"),
                     controller: passwordEditingController,
                     validator:  (val){
                       return val.length < 6 ? "Enter Password 6+ characters" : null;
@@ -111,11 +116,11 @@ class _SignUpState extends State<SignUp> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     gradient: LinearGradient(
-                      colors: [const Color(0xff007EF4), const Color(0xff2A75BC)],
+                      colors: [const Color(0xff1E9469), const Color(0xff1E9469)],
                     )),
                 width: MediaQuery.of(context).size.width,
                 child: Text(
-                  "Sign Up",
+                  "Criar",
                   style: biggerTextStyle(),
                   textAlign: TextAlign.center,
                 ),
@@ -124,17 +129,6 @@ class _SignUpState extends State<SignUp> {
             SizedBox(
               height: 16,
             ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30), color: Colors.white),
-              width: MediaQuery.of(context).size.width,
-              child: Text(
-                "Sign Up with Google",
-                style: TextStyle(fontSize: 17, color: CustomTheme.textColor),
-                textAlign: TextAlign.center,
-              ),
-            ),
             SizedBox(
               height: 16,
             ),
@@ -142,7 +136,7 @@ class _SignUpState extends State<SignUp> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Already have an account? ",
+                  "Já tem uma conta? ",
                   style: simpleTextStyle(),
                 ),
                 GestureDetector(
@@ -150,9 +144,9 @@ class _SignUpState extends State<SignUp> {
                     widget.toggleView();
                   },
                   child: Text(
-                    "SignIn now",
+                    "Entrar",
                     style: TextStyle(
-                        color: Colors.white,
+                        color: CustomTheme.textColorGreen,
                         fontSize: 16,
                         decoration: TextDecoration.underline),
                   ),

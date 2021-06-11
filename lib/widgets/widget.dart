@@ -1,30 +1,29 @@
+import 'package:clientchat/helper/theme.dart';
 import 'package:flutter/material.dart';
 
 Widget appBarMain(BuildContext context) {
   return AppBar(
-    title: Image.asset(
-      "assets/images/logo.png",
-      height: 40,
+    title: Text(
+      'Procurar Amigos',
+      style: TextStyle(color: CustomTheme.textColor, fontSize: 18),
     ),
-    elevation: 0.0,
-    centerTitle: false,
   );
 }
 
 InputDecoration textFieldInputDecoration(String hintText) {
   return InputDecoration(
       hintText: hintText,
-      hintStyle: TextStyle(color: Colors.white54),
+      hintStyle: TextStyle(color: CustomTheme.textColorGreen),
       focusedBorder:
-          UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+          UnderlineInputBorder(borderSide: BorderSide(color: CustomTheme.textColorGreen)),
       enabledBorder:
-          UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)));
+          UnderlineInputBorder(borderSide: BorderSide(color: CustomTheme.textColorGreen)));
 }
 
 TextStyle simpleTextStyle() {
-  return TextStyle(color: Colors.white, fontSize: 16);
+  return TextStyle(color: CustomTheme.textColor, fontSize: 16);
 }
 
 TextStyle biggerTextStyle() {
-  return TextStyle(color: Colors.white, fontSize: 17);
+  return TextStyle(color: CustomTheme.backgroundColor, fontSize: 17);
 }

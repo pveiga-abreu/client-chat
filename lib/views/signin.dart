@@ -37,7 +37,7 @@ class _SignInState extends State<SignIn> {
           .signInWithEmailAndPassword(
               emailEditingController.text, passwordEditingController.text)
           .then((result) async {
-        if (result != null)  {
+        if (result != null) {
           QuerySnapshot userInfoSnapshot =
               await DatabaseMethods().getUserInfo(emailEditingController.text);
 
@@ -62,7 +62,12 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
+      appBar: AppBar(
+        title: Text(
+          'Login',
+          style: TextStyle(color: CustomTheme.textColor, fontSize: 18),
+        ),
+      ),
       body: isLoading
           ? Container(
               child: Center(child: CircularProgressIndicator()),
@@ -97,33 +102,13 @@ class _SignInState extends State<SignIn> {
                           },
                           style: simpleTextStyle(),
                           controller: passwordEditingController,
-                          decoration: textFieldInputDecoration("password"),
+                          decoration: textFieldInputDecoration("senha"),
                         ),
                       ],
                     ),
                   ),
                   SizedBox(
                     height: 16,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ForgotPassword()));
-                        },
-                        child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            child: Text(
-                              "Forgot Password?",
-                              style: simpleTextStyle(),
-                            )),
-                      )
-                    ],
                   ),
                   SizedBox(
                     height: 16,
@@ -138,13 +123,13 @@ class _SignInState extends State<SignIn> {
                           borderRadius: BorderRadius.circular(30),
                           gradient: LinearGradient(
                             colors: [
-                              const Color(0xff007EF4),
-                              const Color(0xff2A75BC)
+                              const Color(0xff1E9469),
+                              const Color(0xff1E9469)
                             ],
                           )),
                       width: MediaQuery.of(context).size.width,
                       child: Text(
-                        "Sign In",
+                        "Entrar",
                         style: biggerTextStyle(),
                         textAlign: TextAlign.center,
                       ),
@@ -153,19 +138,6 @@ class _SignInState extends State<SignIn> {
                   SizedBox(
                     height: 16,
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.white),
-                    width: MediaQuery.of(context).size.width,
-                    child: Text(
-                      "Sign In with Google",
-                      style:
-                          TextStyle(fontSize: 17, color: CustomTheme.textColor),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
                   SizedBox(
                     height: 16,
                   ),
@@ -173,7 +145,7 @@ class _SignInState extends State<SignIn> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have account? ",
+                        "Não tem conta? ",
                         style: simpleTextStyle(),
                       ),
                       GestureDetector(
@@ -181,9 +153,9 @@ class _SignInState extends State<SignIn> {
                           widget.toggleView();
                         },
                         child: Text(
-                          "Register now",
+                          "Criar Conta",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: CustomTheme.textColorGreen,
                               fontSize: 16,
                               decoration: TextDecoration.underline),
                         ),

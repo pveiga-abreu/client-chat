@@ -1,5 +1,6 @@
 import 'package:clientchat/helper/authenticate.dart';
 import 'package:clientchat/helper/helperfunctions.dart';
+import 'package:clientchat/helper/theme.dart';
 import 'package:clientchat/views/chatrooms.dart';
 import 'package:flutter/material.dart';
 
@@ -37,9 +38,9 @@ class _MyAppState extends State<MyApp> {
       title: 'FlutterChat',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xff145C9E),
-        scaffoldBackgroundColor: Color(0xff1F1F1F),
-        accentColor: Color(0xff007EF4),
+        primaryColor: CustomTheme.colorAccent,
+        scaffoldBackgroundColor: CustomTheme.backgroundColor,
+        accentColor: CustomTheme.textColorGreen,
         fontFamily: "OverpassRegular",
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

@@ -1,12 +1,11 @@
-import 'dart:io';
 import 'package:clientchat/helper/constants.dart';
 import 'package:clientchat/helper/theme.dart';
 import 'package:clientchat/services/database.dart';
-import 'package:clientchat/widgets/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 class Chat extends StatefulWidget {
@@ -30,18 +29,67 @@ class _ChatState extends State<Chat> {
   Stream<QuerySnapshot> chats;
   TextEditingController messageEditingController = new TextEditingController();
 
+  Future<String> analisarMessagem(dados) async {
+    var tamanho = dados.length - 1;
+    var mensagem = "";
+    for (var i = tamanho; i >= 0; i--) {
+      if (dados[i].data["sendBy"] == widget.userName) {
+        mensagem = dados[i].data["message"];
+
+        break;
+      }
+    }
+
+    var headers = {
+      'Authorization':
+          'Basic MjExNi1JN053RkhJeTpsMDZMcW54dVN3c2FQLzgyeHlBY1Y1ekpFM3lHMmlQdg==',
+      'Content-Type': 'application/json'
+    };
+
+    var request = http.Request(
+        'POST', Uri.parse('https://api.gotit.ai/NLU/v1.5/Analyze?&'));
+
+    request.body = json.encode({"T": mensagem, "S": true});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    var resp = '';
+    if (response.statusCode == 200) {
+      resp = await response.stream.bytesToString();
+    } else {
+      resp = response.reasonPhrase;
+    }
+    Map valueMap = jsonDecode(resp);
+    String sentiment = valueMap['sentiment']['label'];
+
+    if (sentiment == 'POSITIVE') {
+      _sendTextMessageToBluetooth('p');
+    } else if (sentiment == 'NEGATIVE') {
+      _sendTextMessageToBluetooth('n');
+    }
+
+    return sentiment;
+  }
+
   Widget chatMessages() {
     return StreamBuilder(
       stream: chats,
       builder: (context, snapshot) {
+        if (snapshot.data != null) {
+          if (snapshot.data.documents[snapshot.data.documents.length - 1]
+                  ["sendBy"] ==
+              widget.userName) {
+            analisarMessagem(snapshot.data.documents).then((value) => print(value));
+          }
+        }
+
         return snapshot.hasData
             ? ListView.builder(
                 reverse: true,
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
-                  var newIndex = (snapshot.data.documents.length - index) -1;
-                  print('${newIndex}');
-                  print('$index');
+                  var newIndex = (snapshot.data.documents.length - index) - 1;
 
                   return MessageTile(
                     message: snapshot.data.documents[newIndex].data["message"],

@@ -1,6 +1,5 @@
 import 'package:clientchat/helper/constants.dart';
 import 'package:clientchat/helper/theme.dart';
-import 'package:clientchat/models/user.dart';
 import 'package:clientchat/services/database.dart';
 import 'package:clientchat/views/chat.dart';
 import 'package:clientchat/widgets/widget.dart';
@@ -70,6 +69,7 @@ class _SearchState extends State<Search> {
         MaterialPageRoute(
             builder: (context) => Chat(
                   chatRoomId: chatRoomId,
+                  userName: userName,
                 )));
   }
 
@@ -148,7 +148,7 @@ class _SearchState extends State<Search> {
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                    color: Colors.grey[100],
+                    color: Colors.grey[200],
                     child: Row(
                       children: [
                         Expanded(

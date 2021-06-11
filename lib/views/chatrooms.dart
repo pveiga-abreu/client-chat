@@ -90,95 +90,102 @@ class _ChatRoomState extends State<ChatRoom> {
   // Switch de ligar/desligar bluetooth
   // seletor do dispositivo e botão de conexão
   Widget bluetoothConfig() {
-    return Container(
-        child: Column(children: <Widget>[
-      Visibility(
-        visible:
-            _isButtonUnavailable && _bluetoothState == BluetoothState.STATE_ON,
-        child: LinearProgressIndicator(
-          backgroundColor: CustomTheme.textColorGreen,
-          valueColor: AlwaysStoppedAnimation<Color>(CustomTheme.colorAccent),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[200], 
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                'Habilitar Bluetooth',
+        child: Column(children: <Widget>[
+        Visibility(
+          visible:
+              _isButtonUnavailable && _bluetoothState == BluetoothState.STATE_ON,
+          child: LinearProgressIndicator(
+            backgroundColor: CustomTheme.textColorGreen,
+            valueColor: AlwaysStoppedAnimation<Color>(CustomTheme.colorAccent),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  'Habilitar Bluetooth',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: CustomTheme.textColorGreen,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              Switch(
+                value: _bluetoothState.isEnabled,
+                onChanged: (bool value) {
+                  future() async {
+                    if (value) {
+                      await FlutterBluetoothSerial.instance.requestEnable();
+                    } else {
+                      await FlutterBluetoothSerial.instance.requestDisable();
+                    }
+
+                    await getPairedDevices();
+                    _isButtonUnavailable = false;
+
+                    if (_connected) {
+                      _disconnect();
+                    }
+                  }
+
+                  future().then((_) {
+                    setState(() {});
+                  });
+                },
+              )
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                'Dispositivo:',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
                   color: CustomTheme.textColorGreen,
+                  fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
-            ),
-            Switch(
-              value: _bluetoothState.isEnabled,
-              onChanged: (bool value) {
-                future() async {
-                  if (value) {
-                    await FlutterBluetoothSerial.instance.requestEnable();
-                  } else {
-                    await FlutterBluetoothSerial.instance.requestDisable();
-                  }
-
-                  await getPairedDevices();
-                  _isButtonUnavailable = false;
-
-                  if (_connected) {
-                    _disconnect();
-                  }
-                }
-
-                future().then((_) {
-                  setState(() {});
-                });
-              },
-            )
-          ],
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              'Dispositivo:',
-              style: TextStyle(
-                color: CustomTheme.textColorGreen,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+              Container(
+                width: 100,
+                child: DropdownButton(
+                  isExpanded: true,
+                  style: const TextStyle(color: Colors.black),
+                  items: GetDeviceItems.getDeviceItems(_devicesList),
+                  onChanged: (value) => setState(() => _device = value),
+                  value: _devicesList.isNotEmpty ? _device : null,
+                ),
               ),
-            ),
-            Container(
-              width: 100,
-              child: DropdownButton(
-                isExpanded: true,
-                style: const TextStyle(color: Colors.black),
-                items: GetDeviceItems.getDeviceItems(_devicesList),
-                onChanged: (value) => setState(() => _device = value),
-                value: _devicesList.isNotEmpty ? _device : null,
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        CustomTheme.textColorGreen)),
+                onPressed: _isButtonUnavailable
+                    ? null
+                    : _connected
+                        ? _disconnect
+                        : _connect,
+                child: Text(_connected ? 'Desconectar' : 'Conectar'),
               ),
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      CustomTheme.textColorGreen)),
-              onPressed: _isButtonUnavailable
-                  ? null
-                  : _connected
-                      ? _disconnect
-                      : _connect,
-              child: Text(_connected ? 'Desconectar' : 'Conectar'),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    ]));
+      ])),
+    );
   }
 
   Widget chatRoomsList() {

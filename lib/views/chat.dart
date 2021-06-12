@@ -24,6 +24,8 @@ class _ChatState extends State<Chat> {
   final BluetoothConnection connection;
   int deviceState;
 
+  String ultMensagem = "";
+
   _ChatState(this.connection, this.deviceState);
 
   Stream<QuerySnapshot> chats;
@@ -38,6 +40,12 @@ class _ChatState extends State<Chat> {
 
         break;
       }
+    }
+
+    if (mensagem != "" && mensagem == ultMensagem) {
+      return "NOTHING";
+    } else {
+      ultMensagem = mensagem;
     }
 
     var headers = {
@@ -80,7 +88,8 @@ class _ChatState extends State<Chat> {
           if (snapshot.data.documents[snapshot.data.documents.length - 1]
                   ["sendBy"] ==
               widget.userName) {
-            analisarMessagem(snapshot.data.documents).then((value) => print(value));
+            analisarMessagem(snapshot.data.documents)
+                .then((value) => print(value));
           }
         }
 

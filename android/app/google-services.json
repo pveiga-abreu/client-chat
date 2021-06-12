@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "368895826274",
+    "project_id": "chatsentimentovirtual",
+    "storage_bucket": "chatsentimentovirtual.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368895826274:android:02c4f0af1f1a7c1dd7743b",
+        "android_client_info": {
+          "package_name": "com.sentimentovirtual.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368895826274-o5j3hvu17ntpf0tu152abu16c7arivpv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZdEj66zqSmKcskrtl3JiH8dlg6IQc8J4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368895826274-o5j3hvu17ntpf0tu152abu16c7arivpv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
